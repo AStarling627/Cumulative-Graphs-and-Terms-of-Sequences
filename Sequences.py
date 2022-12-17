@@ -1,8 +1,53 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-p = input('Would you like to see all the terms of your sequence, a cumulative graph or both? ')
+pref = input('Would you like to see all the terms of your sequence, a cumulative graph or both? ')
 seq = input('What is your sequence? (if it is a certain one specify e.g the prime numbers) ')
+
+
+def comma(ul):
+    ul = list(str(ul))
+    if 5 <= len(ul):
+        pos = -3
+        i = len(ul)
+        while 5 <= i:
+            ul.insert(pos, ',')
+            i -= 2
+            pos -= 4
+        ul = ''.join(ul)
+        return ul
+    else:
+        ul = ''.join(ul)
+        return ul
+
+
+def plot(x, y, u):
+    comma(u)
+    plt.plot(x, y)
+    plt.xlabel('Natural Numbers')
+    plt.ylabel('Number of ' + tts + ' Numbers')
+    plt.title('Cumulative ' + tts + ' Numbers from 0 to ' + comma(u))
+    plt.show()
+
+
+def terms(s, u):
+    l = len(s)
+    comma(u)
+    comma(l)
+    print(*s, sep=', ')
+    print('There are', comma(l), tts.lower(), 'numbers from 0 to', comma(u))
+
+
+def ref(x, y, s, u):
+    if 'both' in pref or 'Both' in pref:
+        terms(s, u)
+        plot(x, y, u)
+    elif 'graph' in pref or 'Graph' in pref or 'cumulative' in pref or 'Cumulative' in pref:
+        plot(x, y, u)
+    elif 'terms' in pref or 'Terms' in pref or 'numbers' in pref or 'Numbers' in pref:
+        terms(s, u)
+    else:
+        print('ERROR: are you sure that this is one of the options? ')
 
 
 def primeSeq():
@@ -24,21 +69,7 @@ def primeSeq():
         else:
             continue
         nPrimes.append(len(primes))
-    if 'both' or 'Both' in p:
-        print(*primes, sep=', ')
-        plt.plot(natural, nPrimes)
-        plt.xlabel('Natural Numbers')
-        plt.ylabel('Number of Primes')
-        plt.show()
-    elif 'graph' or 'Graph' or 'cumulative' or 'Cumulative' in p:
-        plt.plot(natural, nPrimes)
-        plt.xlabel('Natural Numbers')
-        plt.ylabel('Number of Primes')
-        plt.show()
-    elif 'terms' or 'Terms' or 'numbers' or 'Numbers' in p:
-        print(*primes, sep=', ')
-    else:
-        print('ERROR: are you sure that this is one of the options? ')
+    ref(natural, nPrimes, primes, uBound)
 
 
 def triSeq():
@@ -55,26 +86,14 @@ def triSeq():
         else:
             nTris.append(len(tris))
             continue
-    if 'both' or 'Both' in p:
-        print(*tris, sep=', ')
-        plt.plot(natural, nTris)
-        plt.xlabel('Natural Numbers')
-        plt.ylabel('Number of Triangulars')
-        plt.show()
-    elif 'graph' or 'Graph' or 'cumulative' or 'Cumulative' in p:
-        plt.plot(natural, nTris)
-        plt.xlabel('Natural Numbers')
-        plt.ylabel('Number of Triangulars')
-        plt.show()
-    elif 'terms' or 'Terms' or 'numbers' or 'Numbers' in p:
-        print(*tris, sep=', ')
-    else:
-        print('ERROR: are you sure that this is one of the options?')
+    ref(natural, nTris, tris, uBound)
 
 
 if 'prime' in seq or 'Prime' in seq or 'primes' in seq or 'Primes' in seq:
+    tts = 'Prime'
     primeSeq()
 elif 'triangular' in seq or 'Triangular' in seq or 'triangulars' in seq or 'Triangulars' in seq:
+    tts = 'Triangular'
     triSeq()
 else:
     print('ERROR: are you sure that this is a sequence?')
